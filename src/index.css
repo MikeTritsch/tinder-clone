@@ -3,6 +3,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 * {
@@ -23,10 +24,6 @@ html, body {
   background: linear-gradient(260deg, #fe3072, #ff5948);
 }
 
-body {
-  text-align: center;
-}
-
 /* NAV */
 
 nav {
@@ -42,7 +39,10 @@ nav .nav-btn {
   padding: 10px 20px;
   border-radius: 10px;
   border: none;
-  margin: 10px;
+  margin-top: 80px;
+  margin-right: 20px;
+  height: 50%;
+  /* Height will match the logo, adjusted to center */
 }
 
 nav .logo-container {
@@ -65,4 +65,20 @@ nav .logo-container .logo {
     rgba(0, 0, 0, 0.65) 0%,
     rgba(0, 0, 0, 0) 100%
   );
+}
+
+/* Auth Modal */
+
+.auth-modal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 360px;
+  height: 600px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  padding: 40px;
 }
