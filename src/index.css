@@ -25,6 +25,18 @@ html, body {
   cursor: pointer;
 }
 
+.secondary-button {
+  color: rgb(121, 119, 119);
+  background-color: rgb(255, 255, 255);
+  font-weight: 500px;
+  font-size: 15px;
+  text-transform: uppercase;
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: solid 2px rgb(121, 119, 119);
+  margin: 6px;
+}
+
 /* NAV */
 
 nav {
@@ -87,4 +99,8 @@ nav .logo-container .logo {
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
   padding: 40px;
+}
+
+.auth-modal .close-icon {
+  float: right;
 }
