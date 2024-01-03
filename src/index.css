@@ -46,6 +46,11 @@ nav .nav-btn {
   /* Height will match the logo, adjusted to center */
 }
 
+nav .nav-btn:disabled {
+  background-color: rgb(181, 180, 180);
+  color: rgb(189, 42, 90);
+}
+
 nav .logo-container {
   width: 170px;
   margin: 15px;
