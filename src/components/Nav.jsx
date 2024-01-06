@@ -1,9 +1,10 @@
 import blackLogo from "../images/wt-black-nobg.png";
 import colorLogo from "../images/RedVersion-removebg-preview.png";
 
-const Nav = ({ minimal, authToken, setShowModal, showModal }) => {
+const Nav = ({ minimal, authToken, setShowModal, showModal, setIsSignedUp }) => {
   const handleClick = () => {
     setShowModal(true);
+    setIsSignedUp(false);
   };
 
   return (
