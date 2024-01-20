@@ -125,6 +125,10 @@ nav .logo-container .logo {
   float: right;
 }
 
+.close-icon:hover {
+  cursor: pointer;
+}
+
 .auth-modal form {
   display: flex;
   flex-direction: column;
