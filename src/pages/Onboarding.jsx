@@ -2,13 +2,40 @@ import { useState } from "react";
 import Nav from "../components/Nav";
 
 const Onboarding = () => {
+  const [formData, setFormData] = useState({
+    user_id: '',
+    first_name: '',
+    dob_day: '',
+    dob_month: '',
+    dob_year: '',
+    show_gender: false,
+    gender_identity: 'man',
+    gender_interest: 'woman',
+    email: '',
+    url: '',
+    about: '',
+    matches: []
+  })
+
+
   const handleSubmit = () => {
     console.log("submitted");
   };
 
-  const handleChange = () => {
-    console.log("changed");
+  const handleChange = (e) => {
+    console.log('e', e);
+    const value = e.target.value === 'checkbox' ? e.target.checked : e.target.value;
+    const name = e.target.name;
+    console.log(value, name);
+
+    setFormData((prevState) => ({
+      ...prevState,
+      [name] : value
+    }))
   };
+
+  console.log(formData);
+
   return (
     <>
       <Nav minimal={true} setShowModal={() => {}} showModal={false} />
@@ -24,7 +51,7 @@ const Onboarding = () => {
               name="first_name"
               placeholder="First Name"
               required={true}
-              valie={""}
+              valie={formData.first_name}
               onChange={handleChange}
             />
             <label>Birthday</label>
@@ -35,7 +62,7 @@ const Onboarding = () => {
                 name="dob_day"
                 placeholder="DD"
                 required={true}
-                valie={""}
+                valie={formData.dob_day}
                 onChange={handleChange}
               />
               <input
@@ -44,7 +71,7 @@ const Onboarding = () => {
                 name="dob_month"
                 placeholder="MM"
                 required={true}
-                valie={""}
+                valie={formData.dob_month}
                 onChange={handleChange}
               />
               <input
@@ -53,7 +80,7 @@ const Onboarding = () => {
                 name="dob_year"
                 placeholder="YYYY"
                 required={true}
-                valie={""}
+                valie={formData.dob_year}
                 onChange={handleChange}
               />
             </div>
@@ -136,7 +163,7 @@ const Onboarding = () => {
               name="about"
               required={true}
               placeholder="I like long walks..."
-              value={""}
+              value={formData.about}
               onChange={handleChange}
             />
             <input type="submit" />
@@ -151,7 +178,9 @@ const Onboarding = () => {
               onChange={handleChange}
               required={true}
             />
-            <div className="photo-container"></div>
+            <div className="photo-container">
+              <img src={formData.url} alt='Profile Pic Preview'/>
+            </div>
           </section>
         </form>
       </div>
