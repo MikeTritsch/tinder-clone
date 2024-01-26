@@ -2,10 +2,15 @@ const PORT = 8000;
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const { v4: uuid } = require('uuid');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
+const bcrypt = require('bcrypt');
 const uri = 'mongodb+srv://root:mongodb115@cluster0.9h9ocqu.mongodb.net/'
 
 
 const app = express()
+app.use(cors());
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.json('Hello to my app!');
@@ -15,15 +20,15 @@ app.post('/signup', async (req, res) => {
   const client = new MongoClient(uri);
   const { email, password } = req.body;
 
-  const generateUserId = uuidv4();
+  const generateUserId = uuid();
   const hashedpassword = await bcrypt.hash(password, 10);
 
   try {
-    client.connect();
+    await client.connect();
     const database = client.db('tinderClone');
     const users = database.collection('users');
 
-    const existingUser = users.findOne({ email });
+    const existingUser = await users.findOne({ email });
 
     if (existingUser) {
       return res.status(409).send("User already exists. Please login!");
@@ -37,6 +42,14 @@ app.post('/signup', async (req, res) => {
     }
 
     const insertedUser = await users.insertOne(data);
+
+    const token = jwt.sign(insertedUser, sanitizedEmail, {
+      expiresIn: 60 * 24,
+    })
+
+    res.status(201).json({ token, userId: generateUserId, email: sanitizedEmail })
+  } catch (err) {
+    console.log(err);
   }
 
 })
