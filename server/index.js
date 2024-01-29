@@ -21,7 +21,7 @@ app.post('/signup', async (req, res) => {
   const { email, password } = req.body;
 
   const generateUserId = uuid();
-  const hashedpassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
     await client.connect();
@@ -38,7 +38,7 @@ app.post('/signup', async (req, res) => {
     const data = {
       user_id: generateUserId,
       email: sanitizedEmail,
-      hashed_password: hashedpassword
+      hashed_password: hashedPassword
     }
 
     const insertedUser = await users.insertOne(data);
@@ -60,23 +60,27 @@ app.post('/login', async (req, res) => {
 
   try {
     await client.connect();
-    const database = client.db('app-data');
+    const database = client.db('tinderClone');
     const users = database.collection('users');
 
     const user = await users.findOne({ email });
 
-    const correctPassword = await bcrypt.compare(password, user.hashed_password)
+    const correctPassword = await bcrypt.compare(password, user.hashed_password);
 
     if (user && correctPassword) {
       const token = jwt.sign(user, email, {
         expiresIn: 60 * 24
       })
 
-      res.status(201).json({ token, userId: user.user_id, email })
+      res.status(201).json({ token, userId: user.user_id, email });
+      return;
     }
     res.status(400).send('Invalid Credentials');
+    return;
   } catch (err) {
     console.log(err);
+  } finally {
+    await client.close();
   }
 })
 
