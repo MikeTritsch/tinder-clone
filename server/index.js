@@ -47,7 +47,7 @@ app.post('/signup', async (req, res) => {
       expiresIn: 60 * 24,
     })
 
-    res.status(201).json({ token, userId: generateUserId, email: sanitizedEmail })
+    res.status(201).json({ token })
   } catch (err) {
     console.log(err);
   }
@@ -72,7 +72,7 @@ app.post('/login', async (req, res) => {
         expiresIn: 60 * 24
       })
 
-      res.status(201).json({ token, userId: user.user_id, email });
+      res.status(201).json({ token });
       return;
     }
     res.status(400).send('Invalid Credentials');
