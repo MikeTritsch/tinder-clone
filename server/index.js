@@ -47,7 +47,7 @@ app.post('/signup', async (req, res) => {
       expiresIn: 60 * 24,
     })
 
-    res.status(201).json({ token })
+    res.status(201).json({ token, userId: generateUserId })
   } catch (err) {
     console.log(err);
   }
@@ -72,7 +72,7 @@ app.post('/login', async (req, res) => {
         expiresIn: 60 * 24
       })
 
-      res.status(201).json({ token });
+      res.status(201).json({ token, userId: user.user_id });
       return;
     }
     res.status(400).send('Invalid Credentials');
@@ -99,5 +99,38 @@ app.get('/users', async (req, res) => {
   }
 })
 
+app.put('/user', async (req, res) => {
+  const client = new MongoClient(uri);
+  const formData = req.body.formData;
+
+  try {
+    await client.connect();
+    const database = client.db('tinderClone');
+    const users = database.collection('users');
+
+    const query = { user_id: formData.user_id };
+    const updateDocument = {
+      $set: {
+        first_name: formData.first_name,
+        dob_day: formData.dob_day,
+        dob_month: formData.dob_month,
+        dob_year: formData.dob_year,
+        show_gender: formData.show_gender,
+        gender_identity: formData.gender_identity,
+        gender_interest: formData.gender_interest,
+        url: formData.url,
+        about: formData.about,
+        matches: formData.matches
+      },
+    };
+
+    const insertedUser = await users.findOneAndUpdate(query, updateDocument, { returnDocument: 'after' });
+    res.send(insertedUser.value);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+});
 
 app.listen(PORT, () => console.log('Server running on PORT ' + PORT))
