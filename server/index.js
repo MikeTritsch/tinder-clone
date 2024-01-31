@@ -84,6 +84,8 @@ app.post('/login', async (req, res) => {
   }
 })
 
+// GET ALL USERS
+
 app.get('/users', async (req, res) => {
   const client = new MongoClient(uri)
 
@@ -94,6 +96,27 @@ app.get('/users', async (req, res) => {
 
     const returnedUsers = await users.find().toArray();
     res.send(returnedUsers);
+  } finally {
+    await client.close();
+  }
+})
+
+// GET ONE USER
+
+app.get('/user', async (req, res) => {
+  const client = new MongoClient(uri);
+  const userId = req.query.userId;
+
+  try {
+    await client.connect();
+    const database = client.db('tinderClone');
+    const users = database.collection('users');
+
+    const query = { user_id: userId };
+    const user = await users.findOne(query);
+    res.send(user);
+  } catch (err) {
+    console.log(err)
   } finally {
     await client.close();
   }
