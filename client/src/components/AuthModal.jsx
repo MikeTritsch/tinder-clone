@@ -1,18 +1,18 @@
 import { useState } from "react";
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { useCookies } from 'react-cookie'
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const AuthModal = ({ setShowModal, isSignedUp }) => {
-  const [ email, setEmail ] = useState(null);
-  const [ password, setPassword ] = useState(null);
-  const [ confirmPassword, setConfirmPassword] = useState(null);
-  const [ error, setError ] = useState(null);
-  const [ cookies, setCookie, removeCookie] = useCookies(['user']);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState(null);
+  const [error, setError] = useState(null);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   let navigate = useNavigate();
 
-  console.log(email, password, confirmPassword)
+  console.log(email, password, confirmPassword);
 
   const handleClick = () => {
     setShowModal(false);
@@ -21,24 +21,29 @@ const AuthModal = ({ setShowModal, isSignedUp }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if( isSignedUp && ( password != confirmPassword)) {
-        setError("Passwords need to match!")
+      if (isSignedUp && password != confirmPassword) {
+        setError("Passwords need to match!");
         return;
       }
-      console.log('posting', email, password);
-      const response = await axios.post(`http://localhost:8000/${isSignedUp ? 'signup' : 'login'}`, { email, password });
+      console.log("posting", email, password);
+      const response = await axios.post(
+        `http://localhost:8000/${isSignedUp ? "signup" : "login"}`,
+        { email, password }
+      );
 
-      setCookie('AuthToken', response.data.token);
-      setCookie('UserId', response.data.userId);
+      setCookie("AuthToken", response.data.token);
+      setCookie("UserId", response.data.userId);
 
       const success = response.status === 201;
 
-      if (success && isSignedUp) navigate('/onboarding');
-      if (success && !isSignedUp) navigate('/dashboard');
+      if (success && isSignedUp) navigate("/onboarding");
+      if (success && !isSignedUp) navigate("/dashboard");
+
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <div className="auth-modal">
@@ -67,18 +72,20 @@ const AuthModal = ({ setShowModal, isSignedUp }) => {
           required={true}
           onChange={(e) => setPassword(e.target.value)}
         />
-        {isSignedUp && <input
-          type="password"
-          id="password-check"
-          name="password-check"
-          placeholder="Confirm Password"
-          required={true}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />}
-        <input className="secondary-button" type="submit"/>
+        {isSignedUp && (
+          <input
+            type="password"
+            id="password-check"
+            name="password-check"
+            placeholder="Confirm Password"
+            required={true}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        )}
+        <input className="secondary-button" type="submit" />
         <p>{error}</p>
       </form>
-      <hr/>
+      <hr />
       <h2>GET THE APP</h2>
     </div>
   );
