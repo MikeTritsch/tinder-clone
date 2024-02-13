@@ -25,9 +25,6 @@ const Dashboard = () => {
   }, 
   []);
 
-  console.log('user', user);
-
-
 
   const characters = [
     {
