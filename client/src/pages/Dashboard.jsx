@@ -6,9 +6,11 @@ import axios from "axios";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
+  const [genderedUsers, setGenderedUsers] = useState(null);
   const [ cookies, setCookie, removeCookie ] = useCookies(['user']);
 
   const userId = cookies.UserId;
+
   const getUser = async () => {
     try {
       const response = await axios.get('http://localhost:8000/user', {
@@ -20,10 +22,25 @@ const Dashboard = () => {
     }
   }
 
+  const getGenderedUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/gendered-users', {
+        params: {gender: user?.gender_interest}
+      })
+
+      setGenderedUsers(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
-    getUser();
+    getUser()
+    getGenderedUsers()
   }, 
   []);
+
+  console.log('gendered Users', genderedUsers);
 
 
   const characters = [
