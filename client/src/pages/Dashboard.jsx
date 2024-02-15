@@ -40,7 +40,8 @@ const Dashboard = () => {
   }, 
   []);
 
-  console.log('gendered Users', genderedUsers);
+  // console.log('user', user);
+  // console.log('gendered Users', genderedUsers);
 
 
   const characters = [
