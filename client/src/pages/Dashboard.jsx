@@ -36,12 +36,16 @@ const Dashboard = () => {
 
   useEffect(() => {
     getUser()
-    getGenderedUsers()
-  }, 
-  []);
 
-  // console.log('user', user);
-  // console.log('gendered Users', genderedUsers);
+}, [])
+
+useEffect(() => {
+    if (user) {
+        getGenderedUsers()
+    }
+}, [user])
+
+  console.log('gendered Users', genderedUsers);
 
 
   const characters = [

@@ -89,8 +89,7 @@ app.post('/login', async (req, res) => {
 app.get('/gendered-users', async (req, res) => {
   const client = new MongoClient(uri);
   const gender = req.query.gender;
-
-  console.log('GENDER', gender);
+  console.log('Query Params:', req.query);
 
   try {
     await client.connect()
@@ -100,7 +99,7 @@ app.get('/gendered-users', async (req, res) => {
     const foundUsers = await users.find(query).toArray();
     res.send(foundUsers);
     
-    // console.log('gender', gender);
+    console.log('gender', gender);
   } finally {
     await client.close();
   }
