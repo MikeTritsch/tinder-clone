@@ -84,6 +84,23 @@ app.post('/login', async (req, res) => {
   }
 })
 
+
+app.get('/users', async (req, res) => {
+  const client = new MongoClient(uri);
+  const userIds = JSON.parse(req.query.userIds);
+  console.log(userIds);
+
+  try {
+    await client.connect()
+    const database = client.db('tinderClone');
+    const users = database.collection('users');
+
+    
+  } finally {
+    await client.close();
+  }
+})
+
 // GET ALL USERS
 
 app.get('/gendered-users', async (req, res) => {
