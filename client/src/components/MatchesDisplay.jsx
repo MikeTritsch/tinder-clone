@@ -5,7 +5,9 @@ const MatchesDisplay = ({ matches }) => {
 
   const [ matchedProfiles, setMatcheProfiles ] = useState(null);
 
-  const matchedUserIds = matches.map(({ user_id}) =>  user_id)
+  const matchedUserIds = matches.map(({ user_id }) =>  user_id);
+
+  console.log(matches);
 
   const getMatches = async () => {
     try {
