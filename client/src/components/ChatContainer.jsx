@@ -8,7 +8,7 @@ const ChatContainer = ({ user }) => {
   const [ clickedUser, setClickedUser ] = useState(null);
 
   console.log('CLICKED USER', clickedUser);
-  
+
   if (!user || !user.matches) {
     // If user or user.matches is undefined, render a loading state or return null
     return <div>Loading...</div>; // Example of loading state
@@ -25,7 +25,7 @@ const ChatContainer = ({ user }) => {
 
       {!clickedUser && <MatchesDisplay matches={user.matches} setClickedUser={setClickedUser}/>}
 
-      {clickedUser && <ChatDisplay/>}
+      {clickedUser && <ChatDisplay user={user} clickedUser={clickedUser}/>}
     </div>
   );
 };
