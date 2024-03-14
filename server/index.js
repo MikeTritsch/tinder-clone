@@ -216,7 +216,7 @@ app.put('/addmatch', async (req, res) => {
 app.get("/messages", async (req, res) => {
   const client = new MongoClient(uri);
   const { userId, correspondingUserId } = req.query;
-  console.log(userId, correspondingUserId)
+  console.log("USER ID + CORRESPONDING USER ID", userId, correspondingUserId)
 
   try {
     await client.connect();
