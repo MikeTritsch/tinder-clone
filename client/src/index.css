@@ -302,6 +302,11 @@ nav .logo-container .logo {
   display: flex;
   align-items: center;
   color: white;
+  cursor: pointer;
+}
+
+.log-out-icon:hover {
+  color: black;
 }
 
 .img-container {
