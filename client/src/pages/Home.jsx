@@ -1,24 +1,33 @@
 import Nav from "../components/Nav";
 import AuthModal from "../components/AuthModal";
-import { useState } from 'react';
+import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [isSignedUp, setIsSignedUp] = useState(true);
-  const authToken = false;
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const authToken = cookies.AuthToken;
 
   const handleClick = () => {
-    console.log('Click');
+    if (authToken) {
+      removeCookie("UserId", cookies.UserId);
+      removeCookie("AuthToken", cookies.AuthToken);
+      window.location.reload();
+      return;
+    }
     setShowModal(true);
     setIsSignedUp(true);
-  }
+  };
 
   return (
-      <div className="overlay">
-      <Nav minimal={false} 
-      setShowModal={setShowModal} 
-      showModal={showModal} 
-      setIsSignedUp={setIsSignedUp}
+    <div className="overlay">
+      <Nav
+        authToken={authToken}
+        minimal={false}
+        setShowModal={setShowModal}
+        showModal={showModal}
+        setIsSignedUp={setIsSignedUp}
       />
       <div className="Home">
         <h1 className="primary-title">Swipe Right</h1>
@@ -27,10 +36,10 @@ const Home = () => {
         </button>
 
         {showModal && (
-          <AuthModal setShowModal={setShowModal} isSignedUp={isSignedUp}/>
+          <AuthModal setShowModal={setShowModal} isSignedUp={isSignedUp} />
         )}
       </div>
-      </div>
+    </div>
   );
 };
 

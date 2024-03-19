@@ -61,14 +61,19 @@ const ChatDisplay = ({ user, clickedUser }) => {
 
   const descendingOrderMessages = messages?.sort((a,b) => b.timestamp - a.timestamp);
 
-  console.log('FORMATTED MESSAGES', messages);
+  // console.log('FORMATTED MESSAGES', messages);
 
-  console.log("USER MESSAGES", userMessages)
+  // console.log("USER MESSAGES", userMessages)
 
   return (
     <>
     <Chat descendingOrderMessages={descendingOrderMessages}/>
-    <ChatInput/>
+    <ChatInput 
+    user={user}
+    clickedUser={clickedUser}
+    getUserMessages={getUserMessages}
+    getClickedUserMessages={getClickedUserMessages}
+    />
     </>
   )
 }

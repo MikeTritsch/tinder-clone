@@ -5,8 +5,9 @@ const { v4: uuid } = require('uuid');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
-const uri = 'mongodb+srv://root:mongodb115@cluster0.9h9ocqu.mongodb.net/'
+require('dotenv').config();
 
+const uri = process.env.URI
 
 const app = express()
 app.use(cors());
@@ -238,13 +239,14 @@ app.get("/messages", async (req, res) => {
 app.post('/message', async (req, res) => {
   const client = new MongoClient(uri);
   const message = req.body.message;
+  console.log(message);
 
   try {
     await client.connect();
     const database = client.db("tinderClone");
     const messages = database.collection("messages");
-    const insertedMessage = messages.insertOne(message);
-    res.send(insertedMessage);
+    const insertedMessage = await messages.insertOne(message);
+    res.send({ message: "Message inserted successfully", insertedMessage: insertedMessage });
   } finally {
     await client.close();
   }
